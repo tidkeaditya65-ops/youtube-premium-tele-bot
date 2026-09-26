@@ -72,9 +72,10 @@ async def receive_utr(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Wait Until Your Payment Is Verified , You Will Receive Your File Whithin 1 Hour"
     )
 
+    # Approve aur Reject ke buttons
     keyboard = [
         [
-            InlineKeyboardButton("Verify & Send Link", callback_data=f"verify_{user.id}"),
+            InlineKeyboardButton("Approve", callback_data=f"approve_{user.id}"),
             InlineKeyboardButton("Reject", callback_data=f"reject_{user.id}")
         ]
     ]
@@ -106,19 +107,19 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     action = data[0]
     target_user_id = int(data[1])
 
-    if action == "verify":
-        await query.edit_message_caption(caption=f"{query.message.caption}\n\n✅ **Verified & Link Sent!**")
+    if action == "approve":
+        await query.edit_message_caption(caption=f"{query.message.caption}\n\n✅ **Approved & Link Sent!**")
         
         await context.bot.send_message(
             chat_id=target_user_id, 
-            text=f"✅ Aapka payment successfully verify ho gaya hai!\n\n📁 **Aapki YouTube Premium File / Channel Link:** {FILE_LINK}"
+            text=f"✅ Aapka payment successfully approve ho gaya hai!\n\n📁 **Aapki YouTube Premium File / Channel Link:** {FILE_LINK}"
         )
 
     elif action == "reject":
         await query.edit_message_caption(caption=f"{query.message.caption}\n\n❌ **Rejected!**")
         await context.bot.send_message(
             chat_id=target_user_id, 
-            text="❌ Aapka payment verify nahi ho paya. Kripya sahi UTR aur Screenshot ke sath dobara koshish karein."
+            text="❌ Aapka payment reject kar diya gaya hai. Kripya sahi UTR aur Screenshot ke sath dobara koshish karein."
         )
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
